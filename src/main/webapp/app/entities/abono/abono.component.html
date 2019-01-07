@@ -1,0 +1,62 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="creditoApp.abono.home.title">Abonos</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-abono" [routerLink]="['/abono/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="creditoApp.abono.home.createLabel">
+            Create new Abono
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="abonos">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="fecha"><span jhiTranslate="creditoApp.abono.fecha">Fecha</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="abono"><span jhiTranslate="creditoApp.abono.abono">Abono</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="factura.id"><span jhiTranslate="creditoApp.abono.factura">Factura</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let abono of abonos ;trackBy: trackId">
+                <td><a [routerLink]="['/abono', abono.id, 'view' ]">{{abono.id}}</a></td>
+                <td>{{abono.fecha | date:'medium'}}</td>
+                <td>{{abono.abono}}</td>
+                <td>
+                    <div *ngIf="abono.factura">
+                        <a [routerLink]="['../factura', abono.factura?.id, 'view' ]" >{{abono.factura.cliente?.nombre + " " + abono.factura.cliente?.primerApellido + " " + abono.factura.cliente?.segundoApellido + " - " + abono.factura?.total}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/abono', abono.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/abono', abono.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'abono/'+ abono.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

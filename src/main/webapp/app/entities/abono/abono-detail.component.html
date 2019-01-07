@@ -1,0 +1,37 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="abono">
+            <h2><span jhiTranslate="creditoApp.abono.detail.title">Abono</span> {{abono.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="creditoApp.abono.fecha">Fecha</span></dt>
+                <dd>
+                    <span>{{abono.fecha}}</span>
+                </dd>
+                <dt><span jhiTranslate="creditoApp.abono.abono">Abono</span></dt>
+                <dd>
+                    <span>{{abono.abono}}</span>
+                </dd>
+                <dt><span jhiTranslate="creditoApp.abono.factura">Factura</span></dt>
+                <dd>
+                    <div *ngIf="abono.factura">
+                        <a [routerLink]="['/factura', abono.factura?.id, 'view']">{{abono.factura.cliente?.nombre + " " + abono.factura.cliente?.primerApellido + " " + abono.factura.cliente?.segundoApellido + " - " + abono.factura?.total}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/abono', abono.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

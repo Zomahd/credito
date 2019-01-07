@@ -1,0 +1,25 @@
+{
+    "creditoApp": {
+        "historialDeCredito": {
+            "home": {
+                "title": "Historial De Creditos",
+                "createLabel": "Create a new Historial De Credito",
+                "createOrEditLabel": "Create or edit a Historial De Credito"
+            },
+            "created": "A new Historial De Credito is created with identifier {{ param }}",
+            "updated": "A Historial De Credito is updated with identifier {{ param }}",
+            "deleted": "A Historial De Credito is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Historial De Credito {{ id }}?"
+            },
+            "detail": {
+                "title": "Historial De Credito"
+            },
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "factura": "Factura",
+            "cliente": "Cliente",
+            "abono": "Abono"
+        }
+    }
+}

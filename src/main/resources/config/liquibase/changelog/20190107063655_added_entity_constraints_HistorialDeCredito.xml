@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity HistorialDeCredito.
+    -->
+    <changeSet id="20190107063655-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="factura_id"
+                                 baseTableName="historial_de_credito"
+                                 constraintName="fk_historial_de_credito_factura_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="factura"/>
+
+        <addForeignKeyConstraint baseColumnNames="cliente_id"
+                                 baseTableName="historial_de_credito"
+                                 constraintName="fk_historial_de_credito_cliente_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="cliente"/>
+
+        <addForeignKeyConstraint baseColumnNames="abono_id"
+                                 baseTableName="historial_de_credito"
+                                 constraintName="fk_historial_de_credito_abono_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="abono"/>
+
+    </changeSet>
+</databaseChangeLog>

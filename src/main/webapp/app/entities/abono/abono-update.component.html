@@ -1,0 +1,43 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-abono-heading" jhiTranslate="creditoApp.abono.home.createOrEditLabel">Create or edit a Abono</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!abono.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="abono.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="creditoApp.abono.fecha" for="field_fecha">Fecha</label>
+                    <div class="d-flex">
+                        <input id="field_fecha" type="datetime-local" class="form-control" name="fecha" [(ngModel)]="fecha"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="creditoApp.abono.abono" for="field_abono">Abono</label>
+                    <input type="number" class="form-control" name="abono" id="field_abono"
+                        [(ngModel)]="abono.abono" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="creditoApp.abono.factura" for="field_factura">Factura</label>
+                    <select class="form-control" id="field_factura" name="factura" [(ngModel)]="abono.factura" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="facturaOption.id === abono.factura?.id ? abono.factura : facturaOption" *ngFor="let facturaOption of facturas; trackBy: trackFacturaById">{{facturaOption.cliente.nombre + " " + facturaOption.cliente.primerApellido + " " + facturaOption.cliente.segundoApellido + " - " + facturaOption.total}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

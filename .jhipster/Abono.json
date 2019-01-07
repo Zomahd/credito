@@ -1,0 +1,31 @@
+{
+    "name": "Abono",
+    "fields": [
+        {
+            "fieldName": "fecha",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "abono",
+            "fieldType": "Long"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "factura",
+            "otherEntityName": "factura",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190107063654",
+    "javadoc": "The Abono entity.",
+    "entityTableName": "abono",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -1,0 +1,25 @@
+{
+    "creditoApp": {
+        "historialDeCredito": {
+            "home": {
+                "title": "Historial De Creditos",
+                "createLabel": "Crear nuevo Historial De Credito",
+                "createOrEditLabel": "Crear o editar Historial De Credito"
+            },
+            "created": "Un nuevo Historial De Credito ha sido creado con el identificador {{ param }}",
+            "updated": "Un Historial De Credito ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Historial De Credito ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Historial De Credito {{ id }}?"
+            },
+            "detail": {
+                "title": "Historial De Credito"
+            },
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "factura": "Factura",
+            "cliente": "Cliente",
+            "abono": "Abono"
+        }
+    }
+}

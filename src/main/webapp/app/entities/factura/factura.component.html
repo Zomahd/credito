@@ -1,0 +1,64 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="creditoApp.factura.home.title">Facturas</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-factura" [routerLink]="['/factura/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="creditoApp.factura.home.createLabel">
+            Create new Factura
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="facturas">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="fecha"><span jhiTranslate="creditoApp.factura.fecha">Fecha</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="total"><span jhiTranslate="creditoApp.factura.total">Total</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="abonado"><span jhiTranslate="creditoApp.factura.abonado">Abonado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="cliente.id"><span jhiTranslate="creditoApp.factura.cliente">Cliente</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let factura of facturas ;trackBy: trackId">
+                <td><a [routerLink]="['/factura', factura.id, 'view' ]">{{factura.id}}</a></td>
+                <td>{{factura.fecha | date:'medium'}}</td>
+                <td>{{factura.total}}</td>
+                <td>{{factura.abonado}}</td>
+                <td>
+                    <div *ngIf="factura.cliente">
+                        <a [routerLink]="['../cliente', factura.cliente?.id, 'view' ]" >{{factura.cliente?.nombre + " " + factura.cliente?.primerApellido + " " + factura.cliente?.segundoApellido}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/factura', factura.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/factura', factura.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'factura/'+ factura.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

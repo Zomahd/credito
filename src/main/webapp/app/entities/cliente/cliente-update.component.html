@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-cliente-heading" jhiTranslate="creditoApp.cliente.home.createOrEditLabel">Create or edit a Cliente</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!cliente.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="cliente.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="creditoApp.cliente.nombre" for="field_nombre">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" id="field_nombre"
+                        [(ngModel)]="cliente.nombre" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="creditoApp.cliente.primerApellido" for="field_primerApellido">Primer Apellido</label>
+                    <input type="text" class="form-control" name="primerApellido" id="field_primerApellido"
+                        [(ngModel)]="cliente.primerApellido" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="creditoApp.cliente.segundoApellido" for="field_segundoApellido">Segundo Apellido</label>
+                    <input type="text" class="form-control" name="segundoApellido" id="field_segundoApellido"
+                        [(ngModel)]="cliente.segundoApellido" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="creditoApp.cliente.correo" for="field_correo">Correo</label>
+                    <input type="text" class="form-control" name="correo" id="field_correo"
+                        [(ngModel)]="cliente.correo" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="creditoApp.cliente.telefono" for="field_telefono">Telefono</label>
+                    <input type="text" class="form-control" name="telefono" id="field_telefono"
+                        [(ngModel)]="cliente.telefono" />
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

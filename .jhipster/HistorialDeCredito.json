@@ -1,0 +1,49 @@
+{
+    "name": "HistorialDeCredito",
+    "fields": [
+        {
+            "fieldName": "startDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "endDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "factura",
+            "otherEntityName": "factura",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "historialDeCredito"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "cliente",
+            "otherEntityName": "cliente",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "historialDeCredito"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "abono",
+            "otherEntityName": "abono",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "historialDeCredito"
+        }
+    ],
+    "changelogDate": "20190107063655",
+    "javadoc": "The HistorialDeCredito entity.",
+    "entityTableName": "historial_de_credito",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -1,0 +1,41 @@
+{
+    "name": "Factura",
+    "fields": [
+        {
+            "fieldName": "fecha",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "total",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "abonado",
+            "fieldType": "Long"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "cliente",
+            "otherEntityName": "cliente",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "abono",
+            "otherEntityName": "abono",
+            "otherEntityRelationshipName": "factura"
+        }
+    ],
+    "changelogDate": "20190107063653",
+    "javadoc": "The Factura entity.",
+    "entityTableName": "factura",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

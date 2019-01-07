@@ -1,0 +1,43 @@
+{
+    "name": "Cliente",
+    "fields": [
+        {
+            "fieldName": "nombre",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "primerApellido",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "segundoApellido",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "correo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "telefono",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "factura",
+            "otherEntityName": "factura",
+            "otherEntityRelationshipName": "cliente"
+        }
+    ],
+    "changelogDate": "20190107063652",
+    "javadoc": "The Cliente entity.",
+    "entityTableName": "cliente",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

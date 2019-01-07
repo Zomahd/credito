@@ -1,0 +1,23 @@
+{
+    "creditoApp": {
+        "abono": {
+            "home": {
+                "title": "Abonos",
+                "createLabel": "Crear nuevo Abono",
+                "createOrEditLabel": "Crear o editar Abono"
+            },
+            "created": "Un nuevo Abono ha sido creado con el identificador {{ param }}",
+            "updated": "Un Abono ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Abono ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Abono {{ id }}?"
+            },
+            "detail": {
+                "title": "Abono"
+            },
+            "fecha": "Fecha",
+            "abono": "Abono",
+            "factura": "Factura"
+        }
+    }
+}
