@@ -12,12 +12,24 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="creditoApp.cliente.nombre" for="field_nombre">Nombre</label>
                     <input type="text" class="form-control" name="nombre" id="field_nombre"
-                        [(ngModel)]="cliente.nombre" />
+                        [(ngModel)]="cliente.nombre" required/>
+                    <div [hidden]="!(editForm.controls.nombre?.dirty && editForm.controls.nombre?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.nombre?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="creditoApp.cliente.primerApellido" for="field_primerApellido">Primer Apellido</label>
                     <input type="text" class="form-control" name="primerApellido" id="field_primerApellido"
-                        [(ngModel)]="cliente.primerApellido" />
+                        [(ngModel)]="cliente.primerApellido" required/>
+                    <div [hidden]="!(editForm.controls.primerApellido?.dirty && editForm.controls.primerApellido?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.primerApellido?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="creditoApp.cliente.segundoApellido" for="field_segundoApellido">Segundo Apellido</label>

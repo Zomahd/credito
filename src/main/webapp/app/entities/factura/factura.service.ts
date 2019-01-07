@@ -51,7 +51,7 @@ export class FacturaService {
 
     protected convertDateFromClient(factura: IFactura): IFactura {
         const copy: IFactura = Object.assign({}, factura, {
-            fecha: factura.fecha != null && factura.fecha.isValid() ? factura.fecha.toJSON() : null
+            fecha: factura.fecha != null && factura.fecha.isValid() ? factura.fecha.format(DATE_FORMAT) : null
         });
         return copy;
     }

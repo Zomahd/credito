@@ -11,22 +11,41 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="creditoApp.abono.fecha" for="field_fecha">Fecha</label>
-                    <div class="d-flex">
-                        <input id="field_fecha" type="datetime-local" class="form-control" name="fecha" [(ngModel)]="fecha"
-                        />
+                    <div class="input-group">
+                        <input id="field_fecha" type="text" class="form-control" name="fecha" ngbDatepicker  #fechaDp="ngbDatepicker" [(ngModel)]="abono.fecha"
+                        required/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="fechaDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div [hidden]="!(editForm.controls.fecha?.dirty && editForm.controls.fecha?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.fecha?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="creditoApp.abono.abono" for="field_abono">Abono</label>
                     <input type="number" class="form-control" name="abono" id="field_abono"
-                        [(ngModel)]="abono.abono" />
+                        [(ngModel)]="abono.abono" required/>
+                    <div [hidden]="!(editForm.controls.abono?.dirty && editForm.controls.abono?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.abono?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.abono?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="creditoApp.abono.factura" for="field_factura">Factura</label>
-                    <select class="form-control" id="field_factura" name="factura" [(ngModel)]="abono.factura" >
+                    <select class="form-control" id="field_factura" name="factura" [(ngModel)]="abono.facturaId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="facturaOption.id === abono.factura?.id ? abono.factura : facturaOption" *ngFor="let facturaOption of facturas; trackBy: trackFacturaById">{{facturaOption.id}}</option>
+                        <option [ngValue]="facturaOption.id" *ngFor="let facturaOption of facturas; trackBy: trackFacturaById">{{facturaOption.id}}</option>
                     </select>
                 </div>
             </div>

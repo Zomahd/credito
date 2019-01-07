@@ -23,11 +23,11 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="nombre" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
 
             <column name="primer_apellido" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
 
             <column name="segundo_apellido" type="varchar(255)">

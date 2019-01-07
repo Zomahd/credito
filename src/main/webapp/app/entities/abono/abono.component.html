@@ -17,18 +17,18 @@
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="fecha"><span jhiTranslate="creditoApp.abono.fecha">Fecha</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="abono"><span jhiTranslate="creditoApp.abono.abono">Abono</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="factura.id"><span jhiTranslate="creditoApp.abono.factura">Factura</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="facturaId"><span jhiTranslate="creditoApp.abono.factura">Factura</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let abono of abonos ;trackBy: trackId">
                 <td><a [routerLink]="['/abono', abono.id, 'view' ]">{{abono.id}}</a></td>
-                <td>{{abono.fecha | date:'medium'}}</td>
+                <td>{{abono.fecha | date:'mediumDate'}}</td>
                 <td>{{abono.abono}}</td>
                 <td>
-                    <div *ngIf="abono.factura">
-                        <a [routerLink]="['../factura', abono.factura?.id, 'view' ]" >{{abono.factura?.id}}</a>
+                    <div *ngIf="abono.facturaId">
+                        <a [routerLink]="['../factura', abono.facturaId , 'view' ]" >{{abono.facturaId}}</a>
                     </div>
                 </td>
                 <td class="text-right">
@@ -59,9 +59,10 @@
             </tbody>
         </table>
     </div>
+    <!-- Pager is not implemented yet, so this is normal pagination instead -->
     <div *ngIf="abonos && abonos.length">
         <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
         </div>
         <div class="row justify-content-center">
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>

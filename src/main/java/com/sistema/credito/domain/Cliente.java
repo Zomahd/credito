@@ -6,6 +6,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -27,10 +28,12 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre")
+    @NotNull
+    @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @Column(name = "primer_apellido")
+    @NotNull
+    @Column(name = "primer_apellido", nullable = false)
     private String primerApellido;
 
     @Column(name = "segundo_apellido")

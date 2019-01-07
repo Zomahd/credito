@@ -6,9 +6,10 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -26,10 +27,12 @@ public class Abono implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "fecha")
-    private Instant fecha;
+    @NotNull
+    @Column(name = "fecha", nullable = false)
+    private LocalDate fecha;
 
-    @Column(name = "abono")
+    @NotNull
+    @Column(name = "abono", nullable = false)
     private Long abono;
 
     @ManyToOne
@@ -45,16 +48,16 @@ public class Abono implements Serializable {
         this.id = id;
     }
 
-    public Instant getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public Abono fecha(Instant fecha) {
+    public Abono fecha(LocalDate fecha) {
         this.fecha = fecha;
         return this;
     }
 
-    public void setFecha(Instant fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

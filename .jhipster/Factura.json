@@ -2,16 +2,37 @@
     "name": "Factura",
     "fields": [
         {
+            "fieldName": "numeroDeFactura",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
             "fieldName": "fecha",
-            "fieldType": "Instant"
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "total",
-            "fieldType": "Long"
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "abonado",
             "fieldType": "Long"
+        },
+        {
+            "fieldName": "estadoDeFactura",
+            "fieldType": "EstadoDeFactura",
+            "fieldValues": "ABIERTA,CANCELADA",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "relationships": [
@@ -31,10 +52,10 @@
     "changelogDate": "20190107063653",
     "javadoc": "The Factura entity.",
     "entityTableName": "factura",
-    "dto": "no",
-    "pagination": "pagination",
-    "service": "no",
-    "jpaMetamodelFiltering": false,
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",
     "applications": "*"

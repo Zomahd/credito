@@ -15,22 +15,26 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="numeroDeFactura"><span jhiTranslate="creditoApp.factura.numeroDeFactura">Numero De Factura</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="fecha"><span jhiTranslate="creditoApp.factura.fecha">Fecha</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="total"><span jhiTranslate="creditoApp.factura.total">Total</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="abonado"><span jhiTranslate="creditoApp.factura.abonado">Abonado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="cliente.id"><span jhiTranslate="creditoApp.factura.cliente">Cliente</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="estadoDeFactura"><span jhiTranslate="creditoApp.factura.estadoDeFactura">Estado De Factura</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="clienteId"><span jhiTranslate="creditoApp.factura.cliente">Cliente</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let factura of facturas ;trackBy: trackId">
                 <td><a [routerLink]="['/factura', factura.id, 'view' ]">{{factura.id}}</a></td>
-                <td>{{factura.fecha | date:'medium'}}</td>
+                <td>{{factura.numeroDeFactura}}</td>
+                <td>{{factura.fecha | date:'mediumDate'}}</td>
                 <td>{{factura.total}}</td>
                 <td>{{factura.abonado}}</td>
+                <td jhiTranslate="{{'creditoApp.EstadoDeFactura.' + factura.estadoDeFactura}}">{{factura.estadoDeFactura}}</td>
                 <td>
-                    <div *ngIf="factura.cliente">
-                        <a [routerLink]="['../cliente', factura.cliente?.id, 'view' ]" >{{factura.cliente?.id}}</a>
+                    <div *ngIf="factura.clienteId">
+                        <a [routerLink]="['../cliente', factura.clienteId , 'view' ]" >{{factura.clienteId}}</a>
                     </div>
                 </td>
                 <td class="text-right">
@@ -61,9 +65,10 @@
             </tbody>
         </table>
     </div>
+    <!-- Pager is not implemented yet, so this is normal pagination instead -->
     <div *ngIf="facturas && facturas.length">
         <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
         </div>
         <div class="row justify-content-center">
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>

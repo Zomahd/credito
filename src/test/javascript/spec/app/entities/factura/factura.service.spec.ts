@@ -5,9 +5,9 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { FacturaService } from 'app/entities/factura/factura.service';
-import { IFactura, Factura } from 'app/shared/model/factura.model';
+import { IFactura, Factura, EstadoDeFactura } from 'app/shared/model/factura.model';
 
 describe('Service Tests', () => {
     describe('Factura Service', () => {
@@ -25,14 +25,14 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new Factura(0, currentDate, 0, 0);
+            elemDefault = new Factura(0, 'AAAAAAA', currentDate, 0, 0, EstadoDeFactura.ABIERTA);
         });
 
         describe('Service methods', async () => {
             it('should find an element', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        fecha: currentDate.format(DATE_TIME_FORMAT)
+                        fecha: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
@@ -49,7 +49,7 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         id: 0,
-                        fecha: currentDate.format(DATE_TIME_FORMAT)
+                        fecha: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
@@ -70,9 +70,11 @@ describe('Service Tests', () => {
             it('should update a Factura', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        fecha: currentDate.format(DATE_TIME_FORMAT),
+                        numeroDeFactura: 'BBBBBB',
+                        fecha: currentDate.format(DATE_FORMAT),
                         total: 1,
-                        abonado: 1
+                        abonado: 1,
+                        estadoDeFactura: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -94,9 +96,11 @@ describe('Service Tests', () => {
             it('should return a list of Factura', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        fecha: currentDate.format(DATE_TIME_FORMAT),
+                        numeroDeFactura: 'BBBBBB',
+                        fecha: currentDate.format(DATE_FORMAT),
                         total: 1,
-                        abonado: 1
+                        abonado: 1,
+                        estadoDeFactura: 'BBBBBB'
                     },
                     elemDefault
                 );

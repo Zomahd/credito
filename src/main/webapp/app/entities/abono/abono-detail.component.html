@@ -15,8 +15,8 @@
                 </dd>
                 <dt><span jhiTranslate="creditoApp.abono.factura">Factura</span></dt>
                 <dd>
-                    <div *ngIf="abono.factura">
-                        <a [routerLink]="['/factura', abono.factura?.id, 'view']">{{abono.factura?.id}}</a>
+                    <div *ngIf="abono.facturaId">
+                        <a [routerLink]="['/factura', abono.facturaId, 'view']">{{abono.facturaId}}</a>
                     </div>
                 </dd>
             </dl>

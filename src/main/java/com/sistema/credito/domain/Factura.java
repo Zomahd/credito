@@ -7,12 +7,15 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+
+import com.sistema.credito.domain.enumeration.EstadoDeFactura;
 
 /**
  * The Factura entity.
@@ -29,14 +32,25 @@ public class Factura implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "fecha")
-    private Instant fecha;
+    @NotNull
+    @Column(name = "numero_de_factura", nullable = false)
+    private String numeroDeFactura;
 
-    @Column(name = "total")
+    @NotNull
+    @Column(name = "fecha", nullable = false)
+    private LocalDate fecha;
+
+    @NotNull
+    @Column(name = "total", nullable = false)
     private Long total;
 
     @Column(name = "abonado")
     private Long abonado;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado_de_factura", nullable = false)
+    private EstadoDeFactura estadoDeFactura;
 
     @ManyToOne
     @JsonIgnoreProperties("facturas")
@@ -54,16 +68,29 @@ public class Factura implements Serializable {
         this.id = id;
     }
 
-    public Instant getFecha() {
+    public String getNumeroDeFactura() {
+        return numeroDeFactura;
+    }
+
+    public Factura numeroDeFactura(String numeroDeFactura) {
+        this.numeroDeFactura = numeroDeFactura;
+        return this;
+    }
+
+    public void setNumeroDeFactura(String numeroDeFactura) {
+        this.numeroDeFactura = numeroDeFactura;
+    }
+
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public Factura fecha(Instant fecha) {
+    public Factura fecha(LocalDate fecha) {
         this.fecha = fecha;
         return this;
     }
 
-    public void setFecha(Instant fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
@@ -91,6 +118,19 @@ public class Factura implements Serializable {
 
     public void setAbonado(Long abonado) {
         this.abonado = abonado;
+    }
+
+    public EstadoDeFactura getEstadoDeFactura() {
+        return estadoDeFactura;
+    }
+
+    public Factura estadoDeFactura(EstadoDeFactura estadoDeFactura) {
+        this.estadoDeFactura = estadoDeFactura;
+        return this;
+    }
+
+    public void setEstadoDeFactura(EstadoDeFactura estadoDeFactura) {
+        this.estadoDeFactura = estadoDeFactura;
     }
 
     public Cliente getCliente() {
@@ -156,9 +196,11 @@ public class Factura implements Serializable {
     public String toString() {
         return "Factura{" +
             "id=" + getId() +
+            ", numeroDeFactura='" + getNumeroDeFactura() + "'" +
             ", fecha='" + getFecha() + "'" +
             ", total=" + getTotal() +
             ", abonado=" + getAbonado() +
+            ", estadoDeFactura='" + getEstadoDeFactura() + "'" +
             "}";
     }
 }

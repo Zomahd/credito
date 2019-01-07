@@ -2,28 +2,34 @@
  * The Cliente entity.
  */
 entity Cliente {
-	nombre String,
-	primerApellido String,
+	nombre String required,
+	primerApellido String required,
     segundoApellido String,
 	correo String,
 	telefono String
+}
+
+enum EstadoDeFactura {
+	ABIERTA, CANCELADA
 }
 
 /**
  * The Factura entity.
  */
 entity Factura {
-	fecha Instant,
-	total Long,
-	abonado Long
+	numeroDeFactura String required,
+	fecha LocalDate required,
+	total Long required,
+	abonado Long,
+    estadoDeFactura EstadoDeFactura required
 }
 
 /**
  * The Abono entity.
  */
 entity Abono {
-	fecha Instant,
-	abono Long
+	fecha LocalDate required,
+	abono Long required
 }
 
 // defining multiple OneToMany relationships with comments
@@ -33,5 +39,10 @@ relationship OneToMany {
 }
 
 // Set pagination options
-paginate Factura, Abono with pagination
+paginate Factura, Abono with pager
 paginate Cliente with infinite-scroll
+
+dto * with mapstruct
+service * with serviceClass
+service * with serviceImpl
+filter *

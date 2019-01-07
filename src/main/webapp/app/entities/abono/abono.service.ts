@@ -51,7 +51,7 @@ export class AbonoService {
 
     protected convertDateFromClient(abono: IAbono): IAbono {
         const copy: IAbono = Object.assign({}, abono, {
-            fecha: abono.fecha != null && abono.fecha.isValid() ? abono.fecha.toJSON() : null
+            fecha: abono.fecha != null && abono.fecha.isValid() ? abono.fecha.format(DATE_FORMAT) : null
         });
         return copy;
     }

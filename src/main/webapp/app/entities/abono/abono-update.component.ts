@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 
 import { IAbono } from 'app/shared/model/abono.model';
@@ -20,7 +19,7 @@ export class AbonoUpdateComponent implements OnInit {
     isSaving: boolean;
 
     facturas: IFactura[];
-    fecha: string;
+    fechaDp: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
@@ -33,7 +32,6 @@ export class AbonoUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ abono }) => {
             this.abono = abono;
-            this.fecha = this.abono.fecha != null ? this.abono.fecha.format(DATE_TIME_FORMAT) : null;
         });
         this.facturaService.query().subscribe(
             (res: HttpResponse<IFactura[]>) => {
@@ -49,7 +47,6 @@ export class AbonoUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.abono.fecha = this.fecha != null ? moment(this.fecha, DATE_TIME_FORMAT) : null;
         if (this.abono.id !== undefined) {
             this.subscribeToSaveResponse(this.abonoService.update(this.abono));
         } else {

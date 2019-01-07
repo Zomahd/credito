@@ -15,9 +15,11 @@
             "detail": {
                 "title": "Factura"
             },
+            "numeroDeFactura": "Numero De Factura",
             "fecha": "Fecha",
             "total": "Total",
             "abonado": "Abonado",
+            "estadoDeFactura": "Estado De Factura",
             "cliente": "Cliente",
             "abono": "Abono"
         }

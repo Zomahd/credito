@@ -10,28 +10,71 @@
                         [(ngModel)]="factura.id" readonly />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="creditoApp.factura.numeroDeFactura" for="field_numeroDeFactura">Numero De Factura</label>
+                    <input type="text" class="form-control" name="numeroDeFactura" id="field_numeroDeFactura"
+                        [(ngModel)]="factura.numeroDeFactura" required/>
+                    <div [hidden]="!(editForm.controls.numeroDeFactura?.dirty && editForm.controls.numeroDeFactura?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.numeroDeFactura?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="creditoApp.factura.fecha" for="field_fecha">Fecha</label>
-                    <div class="d-flex">
-                        <input id="field_fecha" type="datetime-local" class="form-control" name="fecha" [(ngModel)]="fecha"
-                        />
+                    <div class="input-group">
+                        <input id="field_fecha" type="text" class="form-control" name="fecha" ngbDatepicker  #fechaDp="ngbDatepicker" [(ngModel)]="factura.fecha"
+                        required/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="fechaDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div [hidden]="!(editForm.controls.fecha?.dirty && editForm.controls.fecha?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.fecha?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="creditoApp.factura.total" for="field_total">Total</label>
                     <input type="number" class="form-control" name="total" id="field_total"
-                        [(ngModel)]="factura.total" />
+                        [(ngModel)]="factura.total" required/>
+                    <div [hidden]="!(editForm.controls.total?.dirty && editForm.controls.total?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.total?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.total?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="creditoApp.factura.abonado" for="field_abonado">Abonado</label>
                     <input type="number" class="form-control" name="abonado" id="field_abonado"
                         [(ngModel)]="factura.abonado" />
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="creditoApp.factura.estadoDeFactura" for="field_estadoDeFactura">Estado De Factura</label>
+                    <select class="form-control" name="estadoDeFactura" [(ngModel)]="factura.estadoDeFactura" id="field_estadoDeFactura"  required>
+                        <option value="ABIERTA">{{'creditoApp.EstadoDeFactura.ABIERTA' | translate}}</option>
+                        <option value="CANCELADA">{{'creditoApp.EstadoDeFactura.CANCELADA' | translate}}</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.estadoDeFactura?.dirty && editForm.controls.estadoDeFactura?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.estadoDeFactura?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="creditoApp.factura.cliente" for="field_cliente">Cliente</label>
-                    <select class="form-control" id="field_cliente" name="cliente" [(ngModel)]="factura.cliente" >
+                    <select class="form-control" id="field_cliente" name="cliente" [(ngModel)]="factura.clienteId" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="clienteOption.id === factura.cliente?.id ? factura.cliente : clienteOption" *ngFor="let clienteOption of clientes; trackBy: trackClienteById">{{clienteOption.id}}</option>
+                        <option [ngValue]="clienteOption.id" *ngFor="let clienteOption of clientes; trackBy: trackClienteById">{{clienteOption.id}}</option>
                     </select>
                 </div>
             </div>

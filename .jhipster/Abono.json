@@ -3,11 +3,17 @@
     "fields": [
         {
             "fieldName": "fecha",
-            "fieldType": "Instant"
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "abono",
-            "fieldType": "Long"
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "relationships": [
@@ -21,10 +27,10 @@
     "changelogDate": "20190107063654",
     "javadoc": "The Abono entity.",
     "entityTableName": "abono",
-    "dto": "no",
-    "pagination": "pagination",
-    "service": "no",
-    "jpaMetamodelFiltering": false,
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",
     "applications": "*"

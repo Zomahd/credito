@@ -5,6 +5,10 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="creditoApp.factura.numeroDeFactura">Numero De Factura</span></dt>
+                <dd>
+                    <span>{{factura.numeroDeFactura}}</span>
+                </dd>
                 <dt><span jhiTranslate="creditoApp.factura.fecha">Fecha</span></dt>
                 <dd>
                     <span>{{factura.fecha}}</span>
@@ -17,10 +21,14 @@
                 <dd>
                     <span>{{factura.abonado}}</span>
                 </dd>
+                <dt><span jhiTranslate="creditoApp.factura.estadoDeFactura">Estado De Factura</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'creditoApp.EstadoDeFactura.' + factura.estadoDeFactura}}">{{factura.estadoDeFactura}}</span>
+                </dd>
                 <dt><span jhiTranslate="creditoApp.factura.cliente">Cliente</span></dt>
                 <dd>
-                    <div *ngIf="factura.cliente">
-                        <a [routerLink]="['/cliente', factura.cliente?.id, 'view']">{{factura.cliente?.id}}</a>
+                    <div *ngIf="factura.clienteId">
+                        <a [routerLink]="['/cliente', factura.clienteId, 'view']">{{factura.clienteId}}</a>
                     </div>
                 </dd>
             </dl>

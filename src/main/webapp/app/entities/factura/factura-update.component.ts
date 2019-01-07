@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
 
 import { IFactura } from 'app/shared/model/factura.model';
@@ -20,7 +19,7 @@ export class FacturaUpdateComponent implements OnInit {
     isSaving: boolean;
 
     clientes: ICliente[];
-    fecha: string;
+    fechaDp: any;
 
     constructor(
         protected jhiAlertService: JhiAlertService,
@@ -33,7 +32,6 @@ export class FacturaUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ factura }) => {
             this.factura = factura;
-            this.fecha = this.factura.fecha != null ? this.factura.fecha.format(DATE_TIME_FORMAT) : null;
         });
         this.clienteService.query().subscribe(
             (res: HttpResponse<ICliente[]>) => {
@@ -49,7 +47,6 @@ export class FacturaUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.factura.fecha = this.fecha != null ? moment(this.fecha, DATE_TIME_FORMAT) : null;
         if (this.factura.id !== undefined) {
             this.subscribeToSaveResponse(this.facturaService.update(this.factura));
         } else {

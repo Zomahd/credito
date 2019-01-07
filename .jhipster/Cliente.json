@@ -3,11 +3,17 @@
     "fields": [
         {
             "fieldName": "nombre",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "primerApellido",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "segundoApellido",
@@ -33,10 +39,10 @@
     "changelogDate": "20190107063652",
     "javadoc": "The Cliente entity.",
     "entityTableName": "cliente",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "infinite-scroll",
-    "service": "no",
-    "jpaMetamodelFiltering": false,
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",
     "applications": "*"
