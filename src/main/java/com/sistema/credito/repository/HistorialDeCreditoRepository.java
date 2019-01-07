@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface HistorialDeCreditoRepository extends JpaRepository<HistorialDeCredito, Long> {
+public interface HistorialDeCreditoRepository extends JpaRepository<HistorialDeCredito, Long>, JpaSpecificationExecutor<HistorialDeCredito> {
 
 }

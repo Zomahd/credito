@@ -1,11 +1,13 @@
 package com.sistema.credito.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.sistema.credito.domain.HistorialDeCredito;
 import com.sistema.credito.service.HistorialDeCreditoService;
 import com.sistema.credito.web.rest.errors.BadRequestAlertException;
 import com.sistema.credito.web.rest.util.HeaderUtil;
 import com.sistema.credito.web.rest.util.PaginationUtil;
+import com.sistema.credito.service.dto.HistorialDeCreditoDTO;
+import com.sistema.credito.service.dto.HistorialDeCreditoCriteria;
+import com.sistema.credito.service.HistorialDeCreditoQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -35,25 +38,28 @@ public class HistorialDeCreditoResource {
 
     private final HistorialDeCreditoService historialDeCreditoService;
 
-    public HistorialDeCreditoResource(HistorialDeCreditoService historialDeCreditoService) {
+    private final HistorialDeCreditoQueryService historialDeCreditoQueryService;
+
+    public HistorialDeCreditoResource(HistorialDeCreditoService historialDeCreditoService, HistorialDeCreditoQueryService historialDeCreditoQueryService) {
         this.historialDeCreditoService = historialDeCreditoService;
+        this.historialDeCreditoQueryService = historialDeCreditoQueryService;
     }
 
     /**
      * POST  /historial-de-creditos : Create a new historialDeCredito.
      *
-     * @param historialDeCredito the historialDeCredito to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new historialDeCredito, or with status 400 (Bad Request) if the historialDeCredito has already an ID
+     * @param historialDeCreditoDTO the historialDeCreditoDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new historialDeCreditoDTO, or with status 400 (Bad Request) if the historialDeCredito has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/historial-de-creditos")
     @Timed
-    public ResponseEntity<HistorialDeCredito> createHistorialDeCredito(@RequestBody HistorialDeCredito historialDeCredito) throws URISyntaxException {
-        log.debug("REST request to save HistorialDeCredito : {}", historialDeCredito);
-        if (historialDeCredito.getId() != null) {
+    public ResponseEntity<HistorialDeCreditoDTO> createHistorialDeCredito(@Valid @RequestBody HistorialDeCreditoDTO historialDeCreditoDTO) throws URISyntaxException {
+        log.debug("REST request to save HistorialDeCredito : {}", historialDeCreditoDTO);
+        if (historialDeCreditoDTO.getId() != null) {
             throw new BadRequestAlertException("A new historialDeCredito cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        HistorialDeCredito result = historialDeCreditoService.save(historialDeCredito);
+        HistorialDeCreditoDTO result = historialDeCreditoService.save(historialDeCreditoDTO);
         return ResponseEntity.created(new URI("/api/historial-de-creditos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -62,22 +68,22 @@ public class HistorialDeCreditoResource {
     /**
      * PUT  /historial-de-creditos : Updates an existing historialDeCredito.
      *
-     * @param historialDeCredito the historialDeCredito to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated historialDeCredito,
-     * or with status 400 (Bad Request) if the historialDeCredito is not valid,
-     * or with status 500 (Internal Server Error) if the historialDeCredito couldn't be updated
+     * @param historialDeCreditoDTO the historialDeCreditoDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated historialDeCreditoDTO,
+     * or with status 400 (Bad Request) if the historialDeCreditoDTO is not valid,
+     * or with status 500 (Internal Server Error) if the historialDeCreditoDTO couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/historial-de-creditos")
     @Timed
-    public ResponseEntity<HistorialDeCredito> updateHistorialDeCredito(@RequestBody HistorialDeCredito historialDeCredito) throws URISyntaxException {
-        log.debug("REST request to update HistorialDeCredito : {}", historialDeCredito);
-        if (historialDeCredito.getId() == null) {
+    public ResponseEntity<HistorialDeCreditoDTO> updateHistorialDeCredito(@Valid @RequestBody HistorialDeCreditoDTO historialDeCreditoDTO) throws URISyntaxException {
+        log.debug("REST request to update HistorialDeCredito : {}", historialDeCreditoDTO);
+        if (historialDeCreditoDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        HistorialDeCredito result = historialDeCreditoService.save(historialDeCredito);
+        HistorialDeCreditoDTO result = historialDeCreditoService.save(historialDeCreditoDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, historialDeCredito.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, historialDeCreditoDTO.getId().toString()))
             .body(result);
     }
 
@@ -85,35 +91,49 @@ public class HistorialDeCreditoResource {
      * GET  /historial-de-creditos : get all the historialDeCreditos.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of historialDeCreditos in body
      */
     @GetMapping("/historial-de-creditos")
     @Timed
-    public ResponseEntity<List<HistorialDeCredito>> getAllHistorialDeCreditos(Pageable pageable) {
-        log.debug("REST request to get a page of HistorialDeCreditos");
-        Page<HistorialDeCredito> page = historialDeCreditoService.findAll(pageable);
+    public ResponseEntity<List<HistorialDeCreditoDTO>> getAllHistorialDeCreditos(HistorialDeCreditoCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get HistorialDeCreditos by criteria: {}", criteria);
+        Page<HistorialDeCreditoDTO> page = historialDeCreditoQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/historial-de-creditos");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
+    * GET  /historial-de-creditos/count : count all the historialDeCreditos.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/historial-de-creditos/count")
+    @Timed
+    public ResponseEntity<Long> countHistorialDeCreditos(HistorialDeCreditoCriteria criteria) {
+        log.debug("REST request to count HistorialDeCreditos by criteria: {}", criteria);
+        return ResponseEntity.ok().body(historialDeCreditoQueryService.countByCriteria(criteria));
+    }
+
+    /**
      * GET  /historial-de-creditos/:id : get the "id" historialDeCredito.
      *
-     * @param id the id of the historialDeCredito to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the historialDeCredito, or with status 404 (Not Found)
+     * @param id the id of the historialDeCreditoDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the historialDeCreditoDTO, or with status 404 (Not Found)
      */
     @GetMapping("/historial-de-creditos/{id}")
     @Timed
-    public ResponseEntity<HistorialDeCredito> getHistorialDeCredito(@PathVariable Long id) {
+    public ResponseEntity<HistorialDeCreditoDTO> getHistorialDeCredito(@PathVariable Long id) {
         log.debug("REST request to get HistorialDeCredito : {}", id);
-        Optional<HistorialDeCredito> historialDeCredito = historialDeCreditoService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(historialDeCredito);
+        Optional<HistorialDeCreditoDTO> historialDeCreditoDTO = historialDeCreditoService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(historialDeCreditoDTO);
     }
 
     /**
      * DELETE  /historial-de-creditos/:id : delete the "id" historialDeCredito.
      *
-     * @param id the id of the historialDeCredito to delete
+     * @param id the id of the historialDeCreditoDTO to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/historial-de-creditos/{id}")

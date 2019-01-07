@@ -15,10 +15,9 @@
             "detail": {
                 "title": "Historial De Credito"
             },
-            "startDate": "Start Date",
-            "endDate": "End Date",
-            "factura": "Factura",
+            "fecha": "Fecha",
             "cliente": "Cliente",
+            "factura": "Factura",
             "abono": "Abono"
         }
     }

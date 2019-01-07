@@ -5,7 +5,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { HistorialDeCreditoService } from 'app/entities/historial-de-credito/historial-de-credito.service';
 import { IHistorialDeCredito, HistorialDeCredito } from 'app/shared/model/historial-de-credito.model';
 
@@ -25,15 +25,14 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new HistorialDeCredito(0, currentDate, currentDate);
+            elemDefault = new HistorialDeCredito(0, currentDate);
         });
 
         describe('Service methods', async () => {
             it('should find an element', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        startDate: currentDate.format(DATE_TIME_FORMAT),
-                        endDate: currentDate.format(DATE_TIME_FORMAT)
+                        fecha: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
@@ -50,15 +49,13 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         id: 0,
-                        startDate: currentDate.format(DATE_TIME_FORMAT),
-                        endDate: currentDate.format(DATE_TIME_FORMAT)
+                        fecha: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
-                        startDate: currentDate,
-                        endDate: currentDate
+                        fecha: currentDate
                     },
                     returnedFromService
                 );
@@ -73,16 +70,14 @@ describe('Service Tests', () => {
             it('should update a HistorialDeCredito', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        startDate: currentDate.format(DATE_TIME_FORMAT),
-                        endDate: currentDate.format(DATE_TIME_FORMAT)
+                        fecha: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
 
                 const expected = Object.assign(
                     {
-                        startDate: currentDate,
-                        endDate: currentDate
+                        fecha: currentDate
                     },
                     returnedFromService
                 );
@@ -97,15 +92,13 @@ describe('Service Tests', () => {
             it('should return a list of HistorialDeCredito', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        startDate: currentDate.format(DATE_TIME_FORMAT),
-                        endDate: currentDate.format(DATE_TIME_FORMAT)
+                        fecha: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
-                        startDate: currentDate,
-                        endDate: currentDate
+                        fecha: currentDate
                     },
                     returnedFromService
                 );

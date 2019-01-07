@@ -1,6 +1,6 @@
 package com.sistema.credito.service;
 
-import com.sistema.credito.domain.HistorialDeCredito;
+import com.sistema.credito.service.dto.HistorialDeCreditoDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,10 +15,10 @@ public interface HistorialDeCreditoService {
     /**
      * Save a historialDeCredito.
      *
-     * @param historialDeCredito the entity to save
+     * @param historialDeCreditoDTO the entity to save
      * @return the persisted entity
      */
-    HistorialDeCredito save(HistorialDeCredito historialDeCredito);
+    HistorialDeCreditoDTO save(HistorialDeCreditoDTO historialDeCreditoDTO);
 
     /**
      * Get all the historialDeCreditos.
@@ -26,7 +26,7 @@ public interface HistorialDeCreditoService {
      * @param pageable the pagination information
      * @return the list of entities
      */
-    Page<HistorialDeCredito> findAll(Pageable pageable);
+    Page<HistorialDeCreditoDTO> findAll(Pageable pageable);
 
 
     /**
@@ -35,7 +35,7 @@ public interface HistorialDeCreditoService {
      * @param id the id of the entity
      * @return the entity
      */
-    Optional<HistorialDeCredito> findOne(Long id);
+    Optional<HistorialDeCreditoDTO> findOne(Long id);
 
     /**
      * Delete the "id" historialDeCredito.

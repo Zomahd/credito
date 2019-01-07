@@ -3,6 +3,8 @@ package com.sistema.credito.service.impl;
 import com.sistema.credito.service.HistorialDeCreditoService;
 import com.sistema.credito.domain.HistorialDeCredito;
 import com.sistema.credito.repository.HistorialDeCreditoRepository;
+import com.sistema.credito.service.dto.HistorialDeCreditoDTO;
+import com.sistema.credito.service.mapper.HistorialDeCreditoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,20 +26,26 @@ public class HistorialDeCreditoServiceImpl implements HistorialDeCreditoService 
 
     private final HistorialDeCreditoRepository historialDeCreditoRepository;
 
-    public HistorialDeCreditoServiceImpl(HistorialDeCreditoRepository historialDeCreditoRepository) {
+    private final HistorialDeCreditoMapper historialDeCreditoMapper;
+
+    public HistorialDeCreditoServiceImpl(HistorialDeCreditoRepository historialDeCreditoRepository, HistorialDeCreditoMapper historialDeCreditoMapper) {
         this.historialDeCreditoRepository = historialDeCreditoRepository;
+        this.historialDeCreditoMapper = historialDeCreditoMapper;
     }
 
     /**
      * Save a historialDeCredito.
      *
-     * @param historialDeCredito the entity to save
+     * @param historialDeCreditoDTO the entity to save
      * @return the persisted entity
      */
     @Override
-    public HistorialDeCredito save(HistorialDeCredito historialDeCredito) {
-        log.debug("Request to save HistorialDeCredito : {}", historialDeCredito);
-        return historialDeCreditoRepository.save(historialDeCredito);
+    public HistorialDeCreditoDTO save(HistorialDeCreditoDTO historialDeCreditoDTO) {
+        log.debug("Request to save HistorialDeCredito : {}", historialDeCreditoDTO);
+
+        HistorialDeCredito historialDeCredito = historialDeCreditoMapper.toEntity(historialDeCreditoDTO);
+        historialDeCredito = historialDeCreditoRepository.save(historialDeCredito);
+        return historialDeCreditoMapper.toDto(historialDeCredito);
     }
 
     /**
@@ -48,9 +56,10 @@ public class HistorialDeCreditoServiceImpl implements HistorialDeCreditoService 
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<HistorialDeCredito> findAll(Pageable pageable) {
+    public Page<HistorialDeCreditoDTO> findAll(Pageable pageable) {
         log.debug("Request to get all HistorialDeCreditos");
-        return historialDeCreditoRepository.findAll(pageable);
+        return historialDeCreditoRepository.findAll(pageable)
+            .map(historialDeCreditoMapper::toDto);
     }
 
 
@@ -62,9 +71,10 @@ public class HistorialDeCreditoServiceImpl implements HistorialDeCreditoService 
      */
     @Override
     @Transactional(readOnly = true)
-    public Optional<HistorialDeCredito> findOne(Long id) {
+    public Optional<HistorialDeCreditoDTO> findOne(Long id) {
         log.debug("Request to get HistorialDeCredito : {}", id);
-        return historialDeCreditoRepository.findById(id);
+        return historialDeCreditoRepository.findById(id)
+            .map(historialDeCreditoMapper::toDto);
     }
 
     /**

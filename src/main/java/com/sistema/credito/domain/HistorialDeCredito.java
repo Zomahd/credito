@@ -5,15 +5,16 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- * The HistorialDeCredito entity.
+ * The Historial De Credito entity.
  */
-@ApiModel(description = "The HistorialDeCredito entity.")
+@ApiModel(description = "The Historial De Credito entity.")
 @Entity
 @Table(name = "historial_de_credito")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -25,17 +26,15 @@ public class HistorialDeCredito implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "start_date")
-    private Instant startDate;
-
-    @Column(name = "end_date")
-    private Instant endDate;
-
-    @OneToOne    @JoinColumn(unique = true)
-    private Factura factura;
+    @NotNull
+    @Column(name = "fecha", nullable = false)
+    private LocalDate fecha;
 
     @OneToOne    @JoinColumn(unique = true)
     private Cliente cliente;
+
+    @OneToOne    @JoinColumn(unique = true)
+    private Factura factura;
 
     @OneToOne    @JoinColumn(unique = true)
     private Abono abono;
@@ -49,43 +48,17 @@ public class HistorialDeCredito implements Serializable {
         this.id = id;
     }
 
-    public Instant getStartDate() {
-        return startDate;
+    public LocalDate getFecha() {
+        return fecha;
     }
 
-    public HistorialDeCredito startDate(Instant startDate) {
-        this.startDate = startDate;
+    public HistorialDeCredito fecha(LocalDate fecha) {
+        this.fecha = fecha;
         return this;
     }
 
-    public void setStartDate(Instant startDate) {
-        this.startDate = startDate;
-    }
-
-    public Instant getEndDate() {
-        return endDate;
-    }
-
-    public HistorialDeCredito endDate(Instant endDate) {
-        this.endDate = endDate;
-        return this;
-    }
-
-    public void setEndDate(Instant endDate) {
-        this.endDate = endDate;
-    }
-
-    public Factura getFactura() {
-        return factura;
-    }
-
-    public HistorialDeCredito factura(Factura factura) {
-        this.factura = factura;
-        return this;
-    }
-
-    public void setFactura(Factura factura) {
-        this.factura = factura;
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 
     public Cliente getCliente() {
@@ -99,6 +72,19 @@ public class HistorialDeCredito implements Serializable {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public HistorialDeCredito factura(Factura factura) {
+        this.factura = factura;
+        return this;
+    }
+
+    public void setFactura(Factura factura) {
+        this.factura = factura;
     }
 
     public Abono getAbono() {
@@ -139,8 +125,7 @@ public class HistorialDeCredito implements Serializable {
     public String toString() {
         return "HistorialDeCredito{" +
             "id=" + getId() +
-            ", startDate='" + getStartDate() + "'" +
-            ", endDate='" + getEndDate() + "'" +
+            ", fecha='" + getFecha() + "'" +
             "}";
     }
 }

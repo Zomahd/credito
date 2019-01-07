@@ -2,27 +2,26 @@
     "name": "HistorialDeCredito",
     "fields": [
         {
-            "fieldName": "startDate",
-            "fieldType": "Instant"
-        },
-        {
-            "fieldName": "endDate",
-            "fieldType": "Instant"
+            "fieldName": "fecha",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "relationships": [
         {
             "relationshipType": "one-to-one",
-            "relationshipName": "factura",
-            "otherEntityName": "factura",
+            "relationshipName": "cliente",
+            "otherEntityName": "cliente",
             "otherEntityField": "id",
             "ownerSide": true,
             "otherEntityRelationshipName": "historialDeCredito"
         },
         {
             "relationshipType": "one-to-one",
-            "relationshipName": "cliente",
-            "otherEntityName": "cliente",
+            "relationshipName": "factura",
+            "otherEntityName": "factura",
             "otherEntityField": "id",
             "ownerSide": true,
             "otherEntityRelationshipName": "historialDeCredito"
@@ -37,12 +36,12 @@
         }
     ],
     "changelogDate": "20190107063655",
-    "javadoc": "The HistorialDeCredito entity.",
+    "javadoc": "The Historial De Credito entity.",
     "entityTableName": "historial_de_credito",
-    "dto": "no",
-    "pagination": "pagination",
+    "dto": "mapstruct",
+    "pagination": "pager",
     "service": "serviceImpl",
-    "jpaMetamodelFiltering": false,
+    "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",
     "applications": "*"

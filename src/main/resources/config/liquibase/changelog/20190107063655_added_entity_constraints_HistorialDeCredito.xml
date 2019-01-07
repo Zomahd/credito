@@ -8,17 +8,17 @@
     -->
     <changeSet id="20190107063655-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="factura_id"
-                                 baseTableName="historial_de_credito"
-                                 constraintName="fk_historial_de_credito_factura_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="factura"/>
-
         <addForeignKeyConstraint baseColumnNames="cliente_id"
                                  baseTableName="historial_de_credito"
                                  constraintName="fk_historial_de_credito_cliente_id"
                                  referencedColumnNames="id"
                                  referencedTableName="cliente"/>
+
+        <addForeignKeyConstraint baseColumnNames="factura_id"
+                                 baseTableName="historial_de_credito"
+                                 constraintName="fk_historial_de_credito_factura_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="factura"/>
 
         <addForeignKeyConstraint baseColumnNames="abono_id"
                                  baseTableName="historial_de_credito"

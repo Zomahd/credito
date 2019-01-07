@@ -51,19 +51,15 @@ export class HistorialDeCreditoService {
 
     protected convertDateFromClient(historialDeCredito: IHistorialDeCredito): IHistorialDeCredito {
         const copy: IHistorialDeCredito = Object.assign({}, historialDeCredito, {
-            startDate:
-                historialDeCredito.startDate != null && historialDeCredito.startDate.isValid()
-                    ? historialDeCredito.startDate.toJSON()
-                    : null,
-            endDate: historialDeCredito.endDate != null && historialDeCredito.endDate.isValid() ? historialDeCredito.endDate.toJSON() : null
+            fecha:
+                historialDeCredito.fecha != null && historialDeCredito.fecha.isValid() ? historialDeCredito.fecha.format(DATE_FORMAT) : null
         });
         return copy;
     }
 
     protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
         if (res.body) {
-            res.body.startDate = res.body.startDate != null ? moment(res.body.startDate) : null;
-            res.body.endDate = res.body.endDate != null ? moment(res.body.endDate) : null;
+            res.body.fecha = res.body.fecha != null ? moment(res.body.fecha) : null;
         }
         return res;
     }
@@ -71,8 +67,7 @@ export class HistorialDeCreditoService {
     protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
         if (res.body) {
             res.body.forEach((historialDeCredito: IHistorialDeCredito) => {
-                historialDeCredito.startDate = historialDeCredito.startDate != null ? moment(historialDeCredito.startDate) : null;
-                historialDeCredito.endDate = historialDeCredito.endDate != null ? moment(historialDeCredito.endDate) : null;
+                historialDeCredito.fecha = historialDeCredito.fecha != null ? moment(historialDeCredito.fecha) : null;
             });
         }
         return res;
