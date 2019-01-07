@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
@@ -15,43 +14,38 @@ import { ClienteService } from './cliente.service';
     templateUrl: './cliente.component.html'
 })
 export class ClienteComponent implements OnInit, OnDestroy {
-    currentAccount: any;
     clientes: ICliente[];
-    error: any;
-    success: any;
+    currentAccount: any;
     eventSubscriber: Subscription;
-    routeData: any;
+    itemsPerPage: number;
     links: any;
-    totalItems: any;
-    queryCount: any;
-    itemsPerPage: any;
     page: any;
     predicate: any;
-    previousPage: any;
+    queryCount: any;
     reverse: any;
+    totalItems: number;
 
     constructor(
         protected clienteService: ClienteService,
-        protected parseLinks: JhiParseLinks,
         protected jhiAlertService: JhiAlertService,
-        protected accountService: AccountService,
-        protected activatedRoute: ActivatedRoute,
-        protected router: Router,
-        protected eventManager: JhiEventManager
+        protected eventManager: JhiEventManager,
+        protected parseLinks: JhiParseLinks,
+        protected accountService: AccountService
     ) {
+        this.clientes = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
-        this.routeData = this.activatedRoute.data.subscribe(data => {
-            this.page = data.pagingParams.page;
-            this.previousPage = data.pagingParams.page;
-            this.reverse = data.pagingParams.ascending;
-            this.predicate = data.pagingParams.predicate;
-        });
+        this.page = 0;
+        this.links = {
+            last: 0
+        };
+        this.predicate = 'id';
+        this.reverse = true;
     }
 
     loadAll() {
         this.clienteService
             .query({
-                page: this.page - 1,
+                page: this.page,
                 size: this.itemsPerPage,
                 sort: this.sort()
             })
@@ -61,33 +55,14 @@ export class ClienteComponent implements OnInit, OnDestroy {
             );
     }
 
-    loadPage(page: number) {
-        if (page !== this.previousPage) {
-            this.previousPage = page;
-            this.transition();
-        }
-    }
-
-    transition() {
-        this.router.navigate(['/cliente'], {
-            queryParams: {
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-            }
-        });
+    reset() {
+        this.page = 0;
+        this.clientes = [];
         this.loadAll();
     }
 
-    clear() {
-        this.page = 0;
-        this.router.navigate([
-            '/cliente',
-            {
-                page: this.page,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-            }
-        ]);
+    loadPage(page) {
+        this.page = page;
         this.loadAll();
     }
 
@@ -108,7 +83,7 @@ export class ClienteComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInClientes() {
-        this.eventSubscriber = this.eventManager.subscribe('clienteListModification', response => this.loadAll());
+        this.eventSubscriber = this.eventManager.subscribe('clienteListModification', response => this.reset());
     }
 
     sort() {
@@ -122,8 +97,9 @@ export class ClienteComponent implements OnInit, OnDestroy {
     protected paginateClientes(data: ICliente[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-        this.queryCount = this.totalItems;
-        this.clientes = data;
+        for (let i = 0; i < data.length; i++) {
+            this.clientes.push(data[i]);
+        }
     }
 
     protected onError(errorMessage: string) {

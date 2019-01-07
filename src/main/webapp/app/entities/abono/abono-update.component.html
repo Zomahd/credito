@@ -26,7 +26,7 @@
                     <label class="form-control-label" jhiTranslate="creditoApp.abono.factura" for="field_factura">Factura</label>
                     <select class="form-control" id="field_factura" name="factura" [(ngModel)]="abono.factura" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="facturaOption.id === abono.factura?.id ? abono.factura : facturaOption" *ngFor="let facturaOption of facturas; trackBy: trackFacturaById">{{facturaOption.cliente.nombre + " " + facturaOption.cliente.primerApellido + " " + facturaOption.cliente.segundoApellido + " - " + facturaOption.total}}</option>
+                        <option [ngValue]="facturaOption.id === abono.factura?.id ? abono.factura : facturaOption" *ngFor="let facturaOption of facturas; trackBy: trackFacturaById">{{facturaOption.id}}</option>
                     </select>
                 </div>
             </div>

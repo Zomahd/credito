@@ -34,7 +34,7 @@
     "javadoc": "The Cliente entity.",
     "entityTableName": "cliente",
     "dto": "no",
-    "pagination": "pagination",
+    "pagination": "infinite-scroll",
     "service": "no",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

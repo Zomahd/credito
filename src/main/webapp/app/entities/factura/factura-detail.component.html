@@ -20,7 +20,7 @@
                 <dt><span jhiTranslate="creditoApp.factura.cliente">Cliente</span></dt>
                 <dd>
                     <div *ngIf="factura.cliente">
-                        <a [routerLink]="['/cliente', factura.cliente?.id, 'view']">{{factura.cliente?.nombre + " " + factura.cliente?.primerApellido + " " + factura.cliente?.segundoApellido}}</a>
+                        <a [routerLink]="['/cliente', factura.cliente?.id, 'view']">{{factura.cliente?.id}}</a>
                     </div>
                 </dd>
             </dl>

@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
@@ -14,38 +15,43 @@ import { FacturaService } from './factura.service';
     templateUrl: './factura.component.html'
 })
 export class FacturaComponent implements OnInit, OnDestroy {
-    facturas: IFactura[];
     currentAccount: any;
+    facturas: IFactura[];
+    error: any;
+    success: any;
     eventSubscriber: Subscription;
-    itemsPerPage: number;
+    routeData: any;
     links: any;
+    totalItems: any;
+    queryCount: any;
+    itemsPerPage: any;
     page: any;
     predicate: any;
-    queryCount: any;
+    previousPage: any;
     reverse: any;
-    totalItems: number;
 
     constructor(
         protected facturaService: FacturaService,
-        protected jhiAlertService: JhiAlertService,
-        protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
-        protected accountService: AccountService
+        protected jhiAlertService: JhiAlertService,
+        protected accountService: AccountService,
+        protected activatedRoute: ActivatedRoute,
+        protected router: Router,
+        protected eventManager: JhiEventManager
     ) {
-        this.facturas = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
-        this.page = 0;
-        this.links = {
-            last: 0
-        };
-        this.predicate = 'id';
-        this.reverse = true;
+        this.routeData = this.activatedRoute.data.subscribe(data => {
+            this.page = data.pagingParams.page;
+            this.previousPage = data.pagingParams.page;
+            this.reverse = data.pagingParams.ascending;
+            this.predicate = data.pagingParams.predicate;
+        });
     }
 
     loadAll() {
         this.facturaService
             .query({
-                page: this.page,
+                page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
             })
@@ -55,14 +61,33 @@ export class FacturaComponent implements OnInit, OnDestroy {
             );
     }
 
-    reset() {
-        this.page = 0;
-        this.facturas = [];
+    loadPage(page: number) {
+        if (page !== this.previousPage) {
+            this.previousPage = page;
+            this.transition();
+        }
+    }
+
+    transition() {
+        this.router.navigate(['/factura'], {
+            queryParams: {
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            }
+        });
         this.loadAll();
     }
 
-    loadPage(page) {
-        this.page = page;
+    clear() {
+        this.page = 0;
+        this.router.navigate([
+            '/factura',
+            {
+                page: this.page,
+                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            }
+        ]);
         this.loadAll();
     }
 
@@ -83,7 +108,7 @@ export class FacturaComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInFacturas() {
-        this.eventSubscriber = this.eventManager.subscribe('facturaListModification', response => this.reset());
+        this.eventSubscriber = this.eventManager.subscribe('facturaListModification', response => this.loadAll());
     }
 
     sort() {
@@ -97,9 +122,8 @@ export class FacturaComponent implements OnInit, OnDestroy {
     protected paginateFacturas(data: IFactura[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-        for (let i = 0; i < data.length; i++) {
-            this.facturas.push(data[i]);
-        }
+        this.queryCount = this.totalItems;
+        this.facturas = data;
     }
 
     protected onError(errorMessage: string) {
