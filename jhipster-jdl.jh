@@ -1,0 +1,55 @@
+/**
+ * The Cliente entity.
+ */
+entity Cliente {
+	nombre String,
+	primerApellido String,
+    segundoApellido String,
+	correo String,
+	telefono String
+}
+
+/**
+ * The Factura entity.
+ */
+entity Factura {
+	fecha Instant,
+	total Long,
+	abonado Long
+}
+
+/**
+ * The Abono entity.
+ */
+entity Abono {
+	fecha Instant,
+	abono Long
+}
+
+/**
+ * The HistorialDeCredito entity.
+ */
+entity HistorialDeCredito {
+	startDate Instant,
+	endDate Instant
+}
+
+// defining multiple OneToMany relationships with comments
+relationship OneToMany {
+	Cliente{factura} to Factura,
+    Factura{abono} to Abono
+}
+
+// defining multiple oneToOne relationships
+relationship OneToOne {
+	HistorialDeCredito{factura} to Factura,
+	HistorialDeCredito{cliente} to Cliente,
+    HistorialDeCredito{abono} to Abono
+}
+
+// Set pagination options
+paginate Factura, Abono with infinite-scroll
+paginate HistorialDeCredito, Cliente with pagination
+
+// Set service options to all except few
+service all with serviceImpl except Cliente, Factura, Abono
