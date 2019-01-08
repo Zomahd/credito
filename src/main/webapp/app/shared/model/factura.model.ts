@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { ICliente } from 'app/shared/model//cliente.model';
 import { IAbono } from 'app/shared/model//abono.model';
 
 export const enum EstadoDeFactura {
@@ -13,7 +14,7 @@ export interface IFactura {
     total?: number;
     abonado?: number;
     estadoDeFactura?: EstadoDeFactura;
-    clienteId?: number;
+    cliente?: ICliente;
     abonos?: IAbono[];
 }
 
@@ -25,7 +26,7 @@ export class Factura implements IFactura {
         public total?: number,
         public abonado?: number,
         public estadoDeFactura?: EstadoDeFactura,
-        public clienteId?: number,
+        public cliente?: ICliente,
         public abonos?: IAbono[]
     ) {}
 }

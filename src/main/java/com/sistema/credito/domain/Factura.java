@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.Objects;
 
 import com.sistema.credito.domain.enumeration.EstadoDeFactura;
+import org.hibernate.annotations.ColumnDefault;
 
 /**
  * The Factura entity.
@@ -45,6 +46,7 @@ public class Factura implements Serializable {
     private Long total;
 
     @Column(name = "abonado")
+    @ColumnDefault("0")
     private Long abonado;
 
     @NotNull

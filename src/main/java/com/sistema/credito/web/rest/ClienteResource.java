@@ -1,13 +1,11 @@
 package com.sistema.credito.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.sistema.credito.service.ClienteService;
+import com.sistema.credito.domain.Cliente;
+import com.sistema.credito.repository.ClienteRepository;
 import com.sistema.credito.web.rest.errors.BadRequestAlertException;
 import com.sistema.credito.web.rest.util.HeaderUtil;
 import com.sistema.credito.web.rest.util.PaginationUtil;
-import com.sistema.credito.service.dto.ClienteDTO;
-import com.sistema.credito.service.dto.ClienteCriteria;
-import com.sistema.credito.service.ClienteQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,30 +34,27 @@ public class ClienteResource {
 
     private static final String ENTITY_NAME = "cliente";
 
-    private final ClienteService clienteService;
+    private final ClienteRepository clienteRepository;
 
-    private final ClienteQueryService clienteQueryService;
-
-    public ClienteResource(ClienteService clienteService, ClienteQueryService clienteQueryService) {
-        this.clienteService = clienteService;
-        this.clienteQueryService = clienteQueryService;
+    public ClienteResource(ClienteRepository clienteRepository) {
+        this.clienteRepository = clienteRepository;
     }
 
     /**
      * POST  /clientes : Create a new cliente.
      *
-     * @param clienteDTO the clienteDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new clienteDTO, or with status 400 (Bad Request) if the cliente has already an ID
+     * @param cliente the cliente to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new cliente, or with status 400 (Bad Request) if the cliente has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/clientes")
     @Timed
-    public ResponseEntity<ClienteDTO> createCliente(@Valid @RequestBody ClienteDTO clienteDTO) throws URISyntaxException {
-        log.debug("REST request to save Cliente : {}", clienteDTO);
-        if (clienteDTO.getId() != null) {
+    public ResponseEntity<Cliente> createCliente(@Valid @RequestBody Cliente cliente) throws URISyntaxException {
+        log.debug("REST request to save Cliente : {}", cliente);
+        if (cliente.getId() != null) {
             throw new BadRequestAlertException("A new cliente cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        ClienteDTO result = clienteService.save(clienteDTO);
+        Cliente result = clienteRepository.save(cliente);
         return ResponseEntity.created(new URI("/api/clientes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -68,22 +63,22 @@ public class ClienteResource {
     /**
      * PUT  /clientes : Updates an existing cliente.
      *
-     * @param clienteDTO the clienteDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated clienteDTO,
-     * or with status 400 (Bad Request) if the clienteDTO is not valid,
-     * or with status 500 (Internal Server Error) if the clienteDTO couldn't be updated
+     * @param cliente the cliente to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated cliente,
+     * or with status 400 (Bad Request) if the cliente is not valid,
+     * or with status 500 (Internal Server Error) if the cliente couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/clientes")
     @Timed
-    public ResponseEntity<ClienteDTO> updateCliente(@Valid @RequestBody ClienteDTO clienteDTO) throws URISyntaxException {
-        log.debug("REST request to update Cliente : {}", clienteDTO);
-        if (clienteDTO.getId() == null) {
+    public ResponseEntity<Cliente> updateCliente(@Valid @RequestBody Cliente cliente) throws URISyntaxException {
+        log.debug("REST request to update Cliente : {}", cliente);
+        if (cliente.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        ClienteDTO result = clienteService.save(clienteDTO);
+        Cliente result = clienteRepository.save(cliente);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, clienteDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, cliente.getId().toString()))
             .body(result);
     }
 
@@ -91,56 +86,43 @@ public class ClienteResource {
      * GET  /clientes : get all the clientes.
      *
      * @param pageable the pagination information
-     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of clientes in body
      */
     @GetMapping("/clientes")
     @Timed
-    public ResponseEntity<List<ClienteDTO>> getAllClientes(ClienteCriteria criteria, Pageable pageable) {
-        log.debug("REST request to get Clientes by criteria: {}", criteria);
-        Page<ClienteDTO> page = clienteQueryService.findByCriteria(criteria, pageable);
+    public ResponseEntity<List<Cliente>> getAllClientes(Pageable pageable) {
+        log.debug("REST request to get a page of Clientes");
+        Page<Cliente> page = clienteRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/clientes");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
-    * GET  /clientes/count : count all the clientes.
-    *
-    * @param criteria the criterias which the requested entities should match
-    * @return the ResponseEntity with status 200 (OK) and the count in body
-    */
-    @GetMapping("/clientes/count")
-    @Timed
-    public ResponseEntity<Long> countClientes(ClienteCriteria criteria) {
-        log.debug("REST request to count Clientes by criteria: {}", criteria);
-        return ResponseEntity.ok().body(clienteQueryService.countByCriteria(criteria));
-    }
-
-    /**
      * GET  /clientes/:id : get the "id" cliente.
      *
-     * @param id the id of the clienteDTO to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the clienteDTO, or with status 404 (Not Found)
+     * @param id the id of the cliente to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the cliente, or with status 404 (Not Found)
      */
     @GetMapping("/clientes/{id}")
     @Timed
-    public ResponseEntity<ClienteDTO> getCliente(@PathVariable Long id) {
+    public ResponseEntity<Cliente> getCliente(@PathVariable Long id) {
         log.debug("REST request to get Cliente : {}", id);
-        Optional<ClienteDTO> clienteDTO = clienteService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(clienteDTO);
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+        return ResponseUtil.wrapOrNotFound(cliente);
     }
 
     /**
      * DELETE  /clientes/:id : delete the "id" cliente.
      *
-     * @param id the id of the clienteDTO to delete
+     * @param id the id of the cliente to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/clientes/{id}")
     @Timed
     public ResponseEntity<Void> deleteCliente(@PathVariable Long id) {
         log.debug("REST request to delete Cliente : {}", id);
-        clienteService.delete(id);
+
+        clienteRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

@@ -42,6 +42,8 @@ spring:
         database: MYSQL
         show-sql: false
         properties:
+            hibernate.ddl-auto: update
+            hibernate.enable_lazy_load_no_trans: true
             hibernate.id.new_generator_mappings: true
             hibernate.connection.provider_disables_autocommit: true
             hibernate.cache.use_second_level_cache: true
@@ -107,7 +109,7 @@ jhipster:
                 # - In the JHipster Registry (which includes a Spring Cloud Config server)
                 # - In a separate `application-prod.yml` file, in the same folder as your executable WAR file
                 # - In the `JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET` environment variable
-                base64-secret: NmVkOTNiNzQzZjUyMWEzMDFhMjU3MGRmMWUwZDQ3ZmMyNDg2OWYxNzUxODNlYzM2YzhmYjM4NGU4YzUzYTRmNTY0ZmExYmEyZTJmYzFmYzNhOWYzZTg3OTFiNDBjMTI3MGNjNjdmZjYwYmM1ZDNlNmNhNTRjYTAwMGY5YWNlNWU=
+                base64-secret: N2MzMWU5YTI3MzY2ZDNlMWQ2NjQ2MmE2ZjdlNGJkZGM4MDU0ZWMzOGFmMzBmMTZmNTRjMmViMmVkNGZmNmViYjQwMDA5ZGFkN2I0MzA0ODczMjliNWVhMjczNThjNjc3ZWJmYTQ1NThlZmM1MGUwZDJlZjNmMDM1ZWMwOWM5YmU=
                 # Token is valid 24 hours
                 token-validity-in-seconds: 86400
                 token-validity-in-seconds-for-remember-me: 2592000

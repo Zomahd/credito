@@ -1,9 +1,0 @@
-{
-    "creditoApp": {
-        "EstadoDeFactura": {
-            "null": "",
-            "ABIERTA": "ABIERTA",
-            "CANCELADA": "CANCELADA"
-        }
-    }
-}

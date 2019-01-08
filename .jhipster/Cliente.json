@@ -36,13 +36,13 @@
             "otherEntityRelationshipName": "cliente"
         }
     ],
-    "changelogDate": "20190107063652",
+    "changelogDate": "20190108010426",
     "javadoc": "The Cliente entity.",
     "entityTableName": "cliente",
-    "dto": "mapstruct",
+    "dto": "no",
     "pagination": "infinite-scroll",
-    "service": "serviceImpl",
-    "jpaMetamodelFiltering": true,
+    "service": "no",
+    "jpaMetamodelFiltering": false,
     "fluentMethods": true,
     "clientRootFolder": "",
     "applications": "*"

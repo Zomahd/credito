@@ -1,13 +1,13 @@
 package com.sistema.credito.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.sistema.credito.service.AbonoService;
+import com.sistema.credito.domain.Abono;
+import com.sistema.credito.domain.Factura;
+import com.sistema.credito.repository.AbonoRepository;
+import com.sistema.credito.repository.FacturaRepository;
 import com.sistema.credito.web.rest.errors.BadRequestAlertException;
 import com.sistema.credito.web.rest.util.HeaderUtil;
 import com.sistema.credito.web.rest.util.PaginationUtil;
-import com.sistema.credito.service.dto.AbonoDTO;
-import com.sistema.credito.service.dto.AbonoCriteria;
-import com.sistema.credito.service.AbonoQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +24,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * REST controller for managing Abono.
@@ -36,30 +37,42 @@ public class AbonoResource {
 
     private static final String ENTITY_NAME = "abono";
 
-    private final AbonoService abonoService;
+    private final AbonoRepository abonoRepository;
 
-    private final AbonoQueryService abonoQueryService;
+    private final FacturaRepository facturaRepository;
 
-    public AbonoResource(AbonoService abonoService, AbonoQueryService abonoQueryService) {
-        this.abonoService = abonoService;
-        this.abonoQueryService = abonoQueryService;
+    public AbonoResource(AbonoRepository abonoRepository, FacturaRepository facturaRepository) {
+        this.abonoRepository = abonoRepository;
+        this.facturaRepository = facturaRepository;
     }
 
     /**
      * POST  /abonos : Create a new abono.
      *
-     * @param abonoDTO the abonoDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new abonoDTO, or with status 400 (Bad Request) if the abono has already an ID
+     * @param abono the abono to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new abono, or with status 400 (Bad Request) if the abono has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/abonos")
     @Timed
-    public ResponseEntity<AbonoDTO> createAbono(@Valid @RequestBody AbonoDTO abonoDTO) throws URISyntaxException {
-        log.debug("REST request to save Abono : {}", abonoDTO);
-        if (abonoDTO.getId() != null) {
+    public ResponseEntity<Abono> createAbono(@Valid @RequestBody Abono abono) throws URISyntaxException {
+        log.debug("REST request to save Abono : {}", abono);
+        if (abono.getId() != null) {
             throw new BadRequestAlertException("A new abono cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        AbonoDTO result = abonoService.save(abonoDTO);
+        Abono result = abonoRepository.save(abono);
+        Factura factura = result.getFactura();
+        List<Abono> listAbono = abonoRepository.findAll();
+        long abonos = 0;
+
+        for (Abono abonoValue : listAbono) {
+            if (abonoValue.getFactura().getId() == factura.getId()) {
+                abonos += abonoValue.getAbono();
+            }
+        }
+        factura.setAbonado(abonos);
+        facturaRepository.save(factura);
+
         return ResponseEntity.created(new URI("/api/abonos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -68,22 +81,34 @@ public class AbonoResource {
     /**
      * PUT  /abonos : Updates an existing abono.
      *
-     * @param abonoDTO the abonoDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated abonoDTO,
-     * or with status 400 (Bad Request) if the abonoDTO is not valid,
-     * or with status 500 (Internal Server Error) if the abonoDTO couldn't be updated
+     * @param abono the abono to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated abono,
+     * or with status 400 (Bad Request) if the abono is not valid,
+     * or with status 500 (Internal Server Error) if the abono couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/abonos")
     @Timed
-    public ResponseEntity<AbonoDTO> updateAbono(@Valid @RequestBody AbonoDTO abonoDTO) throws URISyntaxException {
-        log.debug("REST request to update Abono : {}", abonoDTO);
-        if (abonoDTO.getId() == null) {
+    public ResponseEntity<Abono> updateAbono(@Valid @RequestBody Abono abono) throws URISyntaxException {
+        log.debug("REST request to update Abono : {}", abono);
+        if (abono.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        AbonoDTO result = abonoService.save(abonoDTO);
+        Abono result = abonoRepository.save(abono);
+        Factura factura = result.getFactura();
+        List<Abono> listAbono = abonoRepository.findAll();
+        long abonos = 0;
+
+        for (Abono abonoValue : listAbono) {
+            if (abonoValue.getFactura().getId() == factura.getId()) {
+                abonos += abonoValue.getAbono();
+            }
+        }
+        factura.setAbonado(abonos);
+        facturaRepository.save(factura);
+
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, abonoDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, abono.getId().toString()))
             .body(result);
     }
 
@@ -91,56 +116,61 @@ public class AbonoResource {
      * GET  /abonos : get all the abonos.
      *
      * @param pageable the pagination information
-     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of abonos in body
      */
     @GetMapping("/abonos")
     @Timed
-    public ResponseEntity<List<AbonoDTO>> getAllAbonos(AbonoCriteria criteria, Pageable pageable) {
-        log.debug("REST request to get Abonos by criteria: {}", criteria);
-        Page<AbonoDTO> page = abonoQueryService.findByCriteria(criteria, pageable);
+    public ResponseEntity<List<Abono>> getAllAbonos(Pageable pageable) {
+        log.debug("REST request to get a page of Abonos");
+        Page<Abono> page = abonoRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/abonos");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
-    * GET  /abonos/count : count all the abonos.
-    *
-    * @param criteria the criterias which the requested entities should match
-    * @return the ResponseEntity with status 200 (OK) and the count in body
-    */
-    @GetMapping("/abonos/count")
-    @Timed
-    public ResponseEntity<Long> countAbonos(AbonoCriteria criteria) {
-        log.debug("REST request to count Abonos by criteria: {}", criteria);
-        return ResponseEntity.ok().body(abonoQueryService.countByCriteria(criteria));
-    }
-
-    /**
      * GET  /abonos/:id : get the "id" abono.
      *
-     * @param id the id of the abonoDTO to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the abonoDTO, or with status 404 (Not Found)
+     * @param id the id of the abono to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the abono, or with status 404 (Not Found)
      */
     @GetMapping("/abonos/{id}")
     @Timed
-    public ResponseEntity<AbonoDTO> getAbono(@PathVariable Long id) {
+    public ResponseEntity<Abono> getAbono(@PathVariable Long id) {
         log.debug("REST request to get Abono : {}", id);
-        Optional<AbonoDTO> abonoDTO = abonoService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(abonoDTO);
+        Optional<Abono> abono = abonoRepository.findById(id);
+        return ResponseUtil.wrapOrNotFound(abono);
     }
 
     /**
      * DELETE  /abonos/:id : delete the "id" abono.
      *
-     * @param id the id of the abonoDTO to delete
+     * @param id the id of the abono to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/abonos/{id}")
     @Timed
     public ResponseEntity<Void> deleteAbono(@PathVariable Long id) {
         log.debug("REST request to delete Abono : {}", id);
-        abonoService.delete(id);
+
+        Abono result = abonoRepository.findById(id).get();
+        Factura factura = result.getFactura();
+
+        abonoRepository.deleteById(id);
+
+        log.debug(" deleteAbono Factura Content: " + factura.toString());
+        List<Abono> listAbono = abonoRepository.findAll();
+        log.debug("deleteAbono listAbono Size: " + listAbono.size());
+        long abonos = 0;
+
+        for (Abono abonoValue : listAbono) {
+            if (abonoValue.getFactura().getId() == factura.getId()) {
+                log.debug(" deleteAbono setAbono Value: " + abonoValue.getAbono());
+                abonos += abonoValue.getAbono();
+            }
+        }
+        factura.setAbonado(abonos);
+        facturaRepository.save(factura);
+
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

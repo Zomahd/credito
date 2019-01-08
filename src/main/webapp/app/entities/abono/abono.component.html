@@ -17,7 +17,7 @@
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="fecha"><span jhiTranslate="creditoApp.abono.fecha">Fecha</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="abono"><span jhiTranslate="creditoApp.abono.abono">Abono</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="facturaId"><span jhiTranslate="creditoApp.abono.factura">Factura</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="factura.id"><span jhiTranslate="creditoApp.abono.factura">Factura</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -27,8 +27,8 @@
                 <td>{{abono.fecha | date:'mediumDate'}}</td>
                 <td>{{abono.abono}}</td>
                 <td>
-                    <div *ngIf="abono.facturaId">
-                        <a [routerLink]="['../factura', abono.facturaId , 'view' ]" >{{abono.facturaId}}</a>
+                    <div *ngIf="abono.factura">
+                        <a [routerLink]="['../factura', abono.factura?.id, 'view' ]" >{{"Numero Factura: " + abono.factura?.numeroDeFactura + " - Total: " + abono.factura?.total}}</a>
                     </div>
                 </td>
                 <td class="text-right">

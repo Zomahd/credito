@@ -20,7 +20,7 @@
             <th jhiSortBy="total"><span jhiTranslate="creditoApp.factura.total">Total</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="abonado"><span jhiTranslate="creditoApp.factura.abonado">Abonado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="estadoDeFactura"><span jhiTranslate="creditoApp.factura.estadoDeFactura">Estado De Factura</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="clienteId"><span jhiTranslate="creditoApp.factura.cliente">Cliente</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="cliente.id"><span jhiTranslate="creditoApp.factura.cliente">Cliente</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -33,8 +33,8 @@
                 <td>{{factura.abonado}}</td>
                 <td jhiTranslate="{{'creditoApp.EstadoDeFactura.' + factura.estadoDeFactura}}">{{factura.estadoDeFactura}}</td>
                 <td>
-                    <div *ngIf="factura.clienteId">
-                        <a [routerLink]="['../cliente', factura.clienteId , 'view' ]" >{{factura.clienteId}}</a>
+                    <div *ngIf="factura.cliente">
+                        <a [routerLink]="['../cliente', factura.cliente?.id, 'view' ]" >{{factura.cliente?.nombre + " " + factura.cliente?.primerApellido + " " + factura.cliente?.segundoApellido}}</a>
                     </div>
                 </td>
                 <td class="text-right">

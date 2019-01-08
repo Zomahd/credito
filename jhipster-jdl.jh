@@ -32,20 +32,6 @@ entity Abono {
 	abono Long required
 }
 
-/**
- * The Historial De Credito entity.
- */
-entity HistorialDeCredito {
-	fecha LocalDate required
-}
-
-// defining multiple OneToMany relationships with comments
-relationship OneToOne {
-	HistorialDeCredito{cliente} to Cliente,
-	HistorialDeCredito{factura} to Factura,
-    HistorialDeCredito{abono} to Abono
-}
-
 // defining multiple OneToMany relationships with comments
 relationship OneToMany {
 	Cliente{factura} to Factura,
@@ -53,10 +39,5 @@ relationship OneToMany {
 }
 
 // Set pagination options
-paginate Factura, Abono, HistorialDeCredito with pager
+paginate Factura, Abono with pager
 paginate Cliente with infinite-scroll
-
-dto * with mapstruct
-service * with serviceClass
-service * with serviceImpl
-filter *

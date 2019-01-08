@@ -49,13 +49,13 @@
             "otherEntityRelationshipName": "factura"
         }
     ],
-    "changelogDate": "20190107063653",
+    "changelogDate": "20190108010427",
     "javadoc": "The Factura entity.",
     "entityTableName": "factura",
-    "dto": "mapstruct",
+    "dto": "no",
     "pagination": "pager",
-    "service": "serviceImpl",
-    "jpaMetamodelFiltering": true,
+    "service": "no",
+    "jpaMetamodelFiltering": false,
     "fluentMethods": true,
     "clientRootFolder": "",
     "applications": "*"

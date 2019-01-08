@@ -24,13 +24,13 @@
             "otherEntityField": "id"
         }
     ],
-    "changelogDate": "20190107063654",
+    "changelogDate": "20190108010428",
     "javadoc": "The Abono entity.",
     "entityTableName": "abono",
-    "dto": "mapstruct",
+    "dto": "no",
     "pagination": "pager",
-    "service": "serviceImpl",
-    "jpaMetamodelFiltering": true,
+    "service": "no",
+    "jpaMetamodelFiltering": false,
     "fluentMethods": true,
     "clientRootFolder": "",
     "applications": "*"

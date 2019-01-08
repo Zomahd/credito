@@ -43,7 +43,6 @@ public class CacheConfiguration {
             cm.createCache(com.sistema.credito.domain.Factura.class.getName(), jcacheConfiguration);
             cm.createCache(com.sistema.credito.domain.Factura.class.getName() + ".abonos", jcacheConfiguration);
             cm.createCache(com.sistema.credito.domain.Abono.class.getName(), jcacheConfiguration);
-            cm.createCache(com.sistema.credito.domain.HistorialDeCredito.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

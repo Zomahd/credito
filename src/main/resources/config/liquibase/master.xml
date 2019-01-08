@@ -5,13 +5,11 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190107063652_added_entity_Cliente.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190107063653_added_entity_Factura.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190107063654_added_entity_Abono.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190107063655_added_entity_HistorialDeCredito.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190108010426_added_entity_Cliente.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190108010427_added_entity_Factura.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190108010428_added_entity_Abono.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
-    <include file="config/liquibase/changelog/20190107063653_added_entity_constraints_Factura.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190107063654_added_entity_constraints_Abono.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190107063655_added_entity_constraints_HistorialDeCredito.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190108010427_added_entity_constraints_Factura.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190108010428_added_entity_constraints_Abono.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
